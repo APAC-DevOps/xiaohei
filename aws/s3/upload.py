@@ -14,9 +14,9 @@ def _console_logger():
     console_logger.setLevel(logging.INFO)
     console_logger.addHandler(console_logger_handler)
 
-def s3_upload(Bucket, LocalPath, Region):
+def s3_upload(Bucket, SrcObject, Region):
     _console_logger()
-    abs_local_path = os.path.abspath(LocalPath)
+    abs_local_path = os.path.abspath(SrcObject)
     s3 = boto3.resource('s3')
     try:
         s3.meta.client.head_bucket(Bucket=Bucket)
@@ -38,17 +38,27 @@ def s3_upload(Bucket, LocalPath, Region):
             logging.info("Bucket " + Bucket + "Has Been Created!")
 
     logging.info("Uploading objects to the S3 bucket " + Bucket)
-    for base_dir, dirs, file_names in os.walk(abs_local_path, topdown=True):
-        # filter out hidden files and directories
-        file_names = [ file_name for file_name in file_names if not file_name[0] == '.']
-        dirs[:] = [d for d in dirs if not d[0] == '.']
-        for local_file_name in file_names:
-            local_file_name = os.path.join(base_dir, local_file_name)
-            remote_file_name = os.path.join(base_dir, local_file_name)[len(abs_local_path) + 1:]
-            s3.meta.client.upload_file(
-                local_file_name,
-                Bucket,
-                remote_file_name
-                )
-            logging.info('Uploaded the object:' + local_file_name)
+    if os.path.isdir(abs_local_path):
+        for base_dir, dirs, file_names in os.walk(abs_local_path, topdown=True):
+            # filter out hidden files and directories
+            file_names = [ file_name for file_name in file_names if not file_name[0] == '.']
+            dirs[:] = [d for d in dirs if not d[0] == '.']
+            for local_file_name in file_names:
+                local_file_name = os.path.join(base_dir, local_file_name)
+                remote_file_name = os.path.join(base_dir, local_file_name)[len(abs_local_path) + 1:]
+                s3.meta.client.upload_file(
+                    local_file_name,
+                    Bucket,
+                    remote_file_name
+                    )
+                logging.info('Uploaded the object:' + local_file_name)
+    else:
+        local_file_name = abs_local_path
+        remote_file_name = SrcObject
+        s3.meta.client.upload_file(
+            local_file_name,
+            Bucket,
+            remote_file_name
+            )
+        logging.info('Uploaded the object:' + local_file_name)
     logging.info("Done Objects Upload")
