@@ -5,7 +5,7 @@ import boto3
 from botocore.client import ClientError
 import logging
 
-def console_logger():
+def _console_logger():
     console_logger_extra = { 'line_begin': 'JIANHUA WU', 'prefix_padding': '=====', 'suffix_padding': '=====' }
     console_logger_handler = logging.StreamHandler()
     console_logger_formatter = logging.Formatter('%(asctime)s %(message)s')
@@ -15,7 +15,7 @@ def console_logger():
     console_logger.addHandler(console_logger_handler)
 
 def s3_upload(Bucket, LocalPath, Region):
-    console_logger()
+    _console_logger()
     abs_local_path = os.path.abspath(LocalPath)
     s3 = boto3.resource('s3')
     try:
