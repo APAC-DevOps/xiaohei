@@ -50,7 +50,7 @@ def s3_upload(Bucket, SrcObject, Region):
                     local_file_name,
                     Bucket,
                     remote_file_name
-                    )
+                )
                 logging.info('Uploaded the object:' + local_file_name)
     else:
         local_file_name = abs_local_path
@@ -59,6 +59,6 @@ def s3_upload(Bucket, SrcObject, Region):
             local_file_name,
             Bucket,
             remote_file_name
-            )
+        )
         logging.info('Uploaded the object:' + local_file_name)
     logging.info("Done Objects Upload")
