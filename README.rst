@@ -34,4 +34,4 @@ The quickest way to get started is to run the ``aws configure`` command::
     Default region name [ap-southeast-2]: ap-southeast-2
     Default output format [None]: json
 
-For more detail, follow the link - https://github.com/aws/aws-cli/blob/develop/README.rst
+For more detail, follow the link at https://github.com/aws/aws-cli/blob/develop/README.rst
