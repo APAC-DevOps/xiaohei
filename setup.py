@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Jianhua Wu",
     author_email="devops.apac@gmail.com",
-    description="",
+    description="A Jianhua WU's package provides an easy way for setting up CI/CD tools on public cloud",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/APAC-DevOps/xiaohei",
